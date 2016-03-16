@@ -20,7 +20,7 @@ import javax.crypto.spec.DESKeySpec;
  * @description DES 加密累
  * @usage
  */
-public class DESCrypt {
+public class DESUtil {
 
 	private final static String DES = "DES";
 
