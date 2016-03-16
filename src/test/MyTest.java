@@ -3,18 +3,16 @@ package test;
 import org.junit.Test;
 
 import crypt.AESUtil;
+import crypt.MD5Util;
 import sql.SQLBuilder;
 
 public class MyTest {
 	@Test
 	public void test() {
-		String key = "chashaobao";
-		String src = "aaa";
-		byte[] doCrypt = AESUtil.doCrypt(src.getBytes(), key, true);
-		 System.out.println(AESUtil.convertBytesToHexString(doCrypt));
-		System.out.println(new String(doCrypt));
-		byte[] doCrypt2 = AESUtil.doCrypt(doCrypt, key, false);
-		System.out.println(new String(doCrypt2));
+		String src = "chashaobao";
+		byte[] build = MD5Util.build(src);
+		String bytesToHex = MD5Util.bytesToHex(build);
+		System.out.println(bytesToHex);
 	}
 
 }

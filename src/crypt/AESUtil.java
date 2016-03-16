@@ -57,13 +57,13 @@ public class AESUtil {
 	 *            加密某个string后得到的byte[]
 	 * @return
 	 */
-	public static String convertBytesToHexString(byte[] bytes) {
+	public static String bytesToHex(byte[] bytes) {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < bytes.length; i++) {
 			int temp = bytes[i] & 0xff;
 			String tempHex = Integer.toHexString(temp);
 			if (tempHex.length() < 2) {
-				result.append("0" + tempHex);
+				result.append("0" + tempHex);// 小于10的话补0
 			} else {
 				result.append(tempHex);
 			}
