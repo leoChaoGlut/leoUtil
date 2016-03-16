@@ -1,5 +1,11 @@
 package restful;
 
+/**
+ * 
+ * @author leo
+ * @date 2016年3月16日 下午1:33:11
+ * @description http返回码
+ */
 public enum Status {
 
 	OK(200, "成功"), NOT_MODIFIED(304, "文件未修改"), BAD_REQUEST(400, "错误请求"), UNAUTHORIZED(

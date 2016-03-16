@@ -4,7 +4,6 @@ package restful;
  * @author "leo"
  * @Description resful 返回值
  * @date 2016年3月15日 下午9:49:58
- * @version v0.0.1
  */
 public class Response {
 
