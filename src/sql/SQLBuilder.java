@@ -11,6 +11,7 @@ import static common.Const.SQL.WHERE;
  * @author leo
  * @date 2016年3月16日 下午1:31:31
  * @description sqlbuilder,线程不安全.
+ * @usage 创建实例调用方法即可.
  */
 public class SQLBuilder {
 
