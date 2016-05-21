@@ -1,10 +1,6 @@
 package crypt;
 
-import java.security.SecureRandom;
-
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -21,53 +17,91 @@ public class AESUtil {
 	public static final String ALGORITHM = "AES";
 
 	/**
+	 * 加密
 	 * 
-	 * @param src
-	 *            需要转换的byte[]
-	 * @param key
-	 *            秘钥
-	 * @param isEncrypt
-	 *            true?encrypt:decrypt
-	 * @return 转换后的byte[]
+	 * @param encryptStr
+	 * @return
 	 */
-	public static byte[] doCrypt(byte[] src, String key, boolean isEncrypt) {
+	public static byte[] encrypt(byte[] src, String key) throws Exception {
+		Cipher cipher = Cipher.getInstance(ALGORITHM);
+		SecretKeySpec securekey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+		cipher.init(Cipher.ENCRYPT_MODE, securekey);// 设置密钥和加密形式
+		return cipher.doFinal(src);
+	}
+
+	/**
+	 * 解密
+	 * 
+	 * @param decryptStr
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] decrypt(byte[] src, String key) throws Exception {
+		Cipher cipher = Cipher.getInstance(ALGORITHM);
+		SecretKeySpec securekey = new SecretKeySpec(key.getBytes(), ALGORITHM);// 设置加密Key
+		cipher.init(Cipher.DECRYPT_MODE, securekey);// 设置密钥和解密形式
+		return cipher.doFinal(src);
+	}
+
+	/**
+	 * 二行制转十六进制字符串
+	 * 
+	 * @param b
+	 * @return
+	 */
+	public static String byte2hex(byte[] b) {
+		String hs = "";
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1)
+				hs = hs + "0" + stmp;
+			else
+				hs = hs + stmp;
+		}
+		return hs.toUpperCase();
+	}
+
+	public static byte[] hex2byte(byte[] b) {
+		if ((b.length % 2) != 0)
+			throw new IllegalArgumentException("长度不是偶数");
+		byte[] b2 = new byte[b.length / 2];
+		for (int n = 0; n < b.length; n += 2) {
+			String item = new String(b, n, 2);
+			b2[n / 2] = (byte) Integer.parseInt(item, 16);
+		}
+		return b2;
+	}
+
+	/**
+	 * 解密
+	 * 
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	public final static String decrypt(String data, String key) {
 		try {
-			KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM);
-			SecureRandom sr = new SecureRandom(key.getBytes());
-			kg.init(KEY_SIZE, sr);
-			SecretKey sk = kg.generateKey();
-			byte[] encoded = sk.getEncoded();
-			SecretKeySpec sks = new SecretKeySpec(encoded, ALGORITHM);
-			Cipher c = Cipher.getInstance(ALGORITHM);
-			int encryptMode = isEncrypt ? Cipher.ENCRYPT_MODE
-					: Cipher.DECRYPT_MODE;
-			c.init(encryptMode, sks);
-			return c.doFinal(src);
+			return new String(decrypt(hex2byte(data.getBytes()), key));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	/**
-	 * 将byte数组转换为16进制字符串,如果直接用new String(byte)这样的方法输出的是乱码.
+	 * 加密
 	 * 
-	 * @param bytes
-	 *            加密某个string后得到的byte[]
+	 * @param data
 	 * @return
+	 * @throws Exception
 	 */
-	public static String bytesToHex(byte[] bytes) {
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < bytes.length; i++) {
-			int temp = bytes[i] & 0xff;
-			String tempHex = Integer.toHexString(temp);
-			if (tempHex.length() < 2) {
-				result.append("0" + tempHex);// 小于10的话补0
-			} else {
-				result.append(tempHex);
-			}
+	public final static String encrypt(String data, String key) {
+		try {
+			return byte2hex(encrypt(data.getBytes(), key));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return result.toString();
+		return null;
 	}
 }

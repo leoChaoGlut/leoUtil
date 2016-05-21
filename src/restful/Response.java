@@ -1,4 +1,5 @@
 package restful;
+
 /**
  * 
  * @author "leo"
@@ -9,19 +10,19 @@ public class Response {
 
 	private int status;
 	private String msg;
-	private String result;
+	private Object result;
 
 	public Response() {
 	}
 
-	public Response(int status, String msg, String result) {
+	public Response(int status, String msg, Object result) {
 		this.status = status;
 		this.msg = msg;
 		this.result = result;
 	}
 
-	public static Response success(String jsonMsg) {
-		return new Response(Status.OK.getCode(), Status.OK.getMsg(), jsonMsg);
+	public static Response success(Object result) {
+		return new Response(Status.OK.getCode(), Status.OK.getMsg(), result);
 	}
 
 	public static Response error() {
