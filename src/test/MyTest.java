@@ -1,10 +1,14 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.junit.Test;
 
-import crypt.AESUtil;
 import crypt.MD5Util;
-import sql.SQLBuilder;
+import db.JDBCHelper;
 
 public class MyTest {
 	@Test
@@ -15,4 +19,20 @@ public class MyTest {
 		System.out.println(bytesToHex);
 	}
 
+	/**
+	 * JDBCHelper
+	 * 
+	 * @throws SQLException
+	 */
+	@Test
+	public void test01() throws SQLException {
+		Connection connection = JDBCHelper.getConnection();
+		DatabaseMetaData metaData = connection.getMetaData();
+		ResultSet resultSet = metaData.getColumns(null, null, "ob_project",
+				null);
+		while (resultSet.next()) {
+			String columnName = resultSet.getString("COLUMN_NAME");
+			System.out.println(columnName);
+		}
+	}
 }
