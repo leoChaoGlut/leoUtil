@@ -35,28 +35,12 @@ public class FileReader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (inputStreamNeedToBeClosed) {
-					if (is != null) {
-						is.close();
-					}
-				}
-			} catch (Exception e) {
-
-			} finally {
-				if (isr != null) {
+			if (inputStreamNeedToBeClosed) {
+				if (br != null) {
 					try {
-						isr.close();
+						br.close();
 					} catch (IOException e) {
 						e.printStackTrace();
-					} finally {
-						if (br != null) {
-							try {
-								br.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
 					}
 				}
 			}
