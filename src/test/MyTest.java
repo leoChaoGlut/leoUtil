@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import bitManiputlation.BitManipulation;
 import crypt.MD5Util;
 import db.JDBCHelper;
 
@@ -28,11 +29,16 @@ public class MyTest {
 	public void test01() throws SQLException {
 		Connection connection = JDBCHelper.getConnection();
 		DatabaseMetaData metaData = connection.getMetaData();
-		ResultSet resultSet = metaData.getColumns(null, null, "ob_project",
-				null);
+		ResultSet resultSet = metaData.getColumns(null, null, "ob_project", null);
 		while (resultSet.next()) {
 			String columnName = resultSet.getString("COLUMN_NAME");
 			System.out.println(columnName);
 		}
+	}
+
+	@Test
+	public void test02() {
+		long result = BitManipulation.add(17L, 66L);
+		System.out.println(result);
 	}
 }
